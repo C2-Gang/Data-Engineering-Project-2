@@ -2,7 +2,6 @@ import time
 from flask import Flask, render_template, request, jsonify, g
 import json
 from flask_cors import CORS, cross_origin
-
 from detoxify import Detoxify
 
 app = Flask(__name__)
