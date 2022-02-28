@@ -1,9 +1,7 @@
 import time
 from flask import Flask, render_template, request, jsonify, g
-import os
 import json
 from flask_cors import CORS, cross_origin
-import random
 
 from detoxify import Detoxify
 
@@ -29,7 +27,7 @@ def predict_text(text: str):
 
     :param text: text to predict
     :type text: str
-    :return: dict sent
+    :return: tox
     :rtype: dict
     """
     if ((text == '') or (text == 'None') ):
