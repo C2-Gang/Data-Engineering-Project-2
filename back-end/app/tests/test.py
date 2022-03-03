@@ -55,5 +55,28 @@ class TestApp(unittest.TestCase):
         assert ast.literal_eval(response.data.decode("utf-8")) == expected_result
 
 
+    """
+    Stress testing will be writing a user simulation to prove
+    that your application can handle 100 requests per minute.
+    """
+
+    def test_request_time(self):
+        """This function calculates if the average response time of the site is below 100 ms per request.
+        """
+        self.test_text_toxic()
+        assert g.request_time <= 100
+
+    def test_request_time_100(self):
+        """This function tests if the site can handle stress: the average response time of the site should
+        be below 100 ms per request, when 1000 requests are sent per second.
+        """
+        request_time = []
+        for i in range(60):
+            self.test_text_toxic()
+            request_time.append(g.request_time)
+        average = sum(request_time) / len(request_time)
+        assert average <= 100
+
+
 if __name__ == '__main__':
     unittest.main()
