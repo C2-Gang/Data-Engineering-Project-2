@@ -1,6 +1,6 @@
 FROM python:3.7
 RUN mkdir /app
-COPY app.py /app
+COPY app/app.py /app
 COPY requirements.txt /app
 WORKDIR /app
 RUN pip --no-cache-dir install torch

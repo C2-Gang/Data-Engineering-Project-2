@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify, g
 import json
 from flask_cors import CORS, cross_origin
 from detoxify import Detoxify
+import logging
 
 app = Flask(__name__)
 CORS(app,  support_credentials=True)
@@ -16,8 +17,11 @@ def index():
 
 def predict_toxicity(text:str):
     toxicity = MODEL.predict(text)
+    toxicity['global_t'] = sum(toxicity.values())/len(list(toxicity.values()))
     keys_values = toxicity.items()
-    toxicity_dict = {str(key): str(value) for key, value in keys_values}
+
+    toxicity_dict = {str(key): str(float("{:.4f}".format(value))) for key, value in keys_values}
+
     return toxicity_dict
 
 
@@ -36,6 +40,7 @@ def predict_text(text: str):
     tox = {
         "text": text,
         "toxicity": toxicity}
+    logging.info(tox)
     return tox
 
 @app.route('/toxic',methods=['GET'])
