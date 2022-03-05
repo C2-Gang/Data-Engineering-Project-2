@@ -1,7 +1,7 @@
 pipeline {
   agent any
     environment {
-        BRANCH = "DEP2-7-automation"
+        BRANCH = "DEP2-9-monitoring"
     }
 
   stages {
@@ -23,6 +23,7 @@ pipeline {
             echo 'Here must deploy'
             sh 'git fetch origin'
             sh 'git checkout develop'
+            sh 'git pull origin develop'
             sh 'git merge origin/$BRANCH'
             withCredentials([string(credentialsId: 'secret_token', variable: 'secret_token')]) {
                 sh 'git push https://$secret_token@github.com/C2-Gang/Data-Engineering-Project-2.git'
