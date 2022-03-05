@@ -10,4 +10,4 @@ services:
     build:
       context: front-end/
     ports:
-      - "3000:3000"
+      - "3006:3006"
