@@ -1,0 +1,11 @@
+authtoken: $TOKEN
+region: eu
+
+tunnels:
+
+  toxic:
+    proto: http
+    addr: http://localhost:5000
+    bind_tls: true
+    host_header: localhost
+
