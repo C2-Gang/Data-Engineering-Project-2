@@ -1,8 +1,7 @@
 pipeline {
   agent any
     environment {
-        BRANCH = "DEP2-6-testing"
-        MESSAGE = "feat: add functionalities"
+        BRANCH = "DEP2-20-documentation"
     }
 
   stages {
@@ -32,8 +31,8 @@ pipeline {
             '
 
             sh 'git fetch origin'
-            sh 'git checkout develop'
-            sh 'git pull origin develop'
+            sh 'git checkout release'
+            sh 'git pull origin release'
             sh 'git merge origin/$BRANCH'
             withCredentials([string(credentialsId: 'secret_token', variable: 'secret_token')]) {
                 sh 'git push https://$secret_token@github.com/C2-Gang/Data-Engineering-Project-2.git'
