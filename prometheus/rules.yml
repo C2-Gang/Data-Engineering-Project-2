@@ -1,0 +1,40 @@
+groups:
+  - name: Project-data-eng
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        annotations:
+          summary: Instance Down
+
+      - alert: ExceptionApp
+        expr: sum(rate(flask_http_request_duration_seconds_count{status!="200"}[30s])) >= 1
+        for: 1m
+        annotations:
+          summary: App Exception raise
+
+      - alert: ErrorApp
+        expr: sum(rate(flask_http_request_duration_seconds_count{status!="200"}[30s])) >= 1
+        for: 1m
+        annotations:
+          summary: App Error raise
+
+      - alert: CPUUsage
+        expr: (sum(rate(process_cpu_seconds_total{job="data-engineering-project-2-back-end-app-1"}[30s]))  * 100) > 80
+        for: 1m
+        annotations:
+          summary: CPU Usage > 80
+
+      - alert: MemoryUsage
+        expr: (process_resident_memory_bytes{job="data-engineering-project-2-back-end-app-1"}  * 100) > 95
+        for: 1m
+        annotations:
+          summary: Memory Usage > 95
+
+      - alert: DiskUsage
+        expr: ((100 - ((node_filesystem_avail_bytes{mountpoint="/",fstype!="rootfs"} * 100) /node_filesystem_size_bytes{mountpoint="/",fstype!="rootfs"}))*100 ) > 95
+        for: 1m
+        annotations:
+          summary: Disk Usage > 95
+
+

@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  back-end-app:
+    build: back-end/
+    ports:
+      - "5000:5000"
+    #image: carayonchloe/data-engineering-project-2-back-end
+  front-end-app:
+    depends_on:
+      - back-end-app
+    build:
+      context: front-end/
+    ports:
+      - "3006:3006"
+    #image:  carayonchloe/data-engineering-project-2-front-end
