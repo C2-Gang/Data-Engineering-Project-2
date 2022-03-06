@@ -60,7 +60,6 @@ def predict_text(text: str):
     tox = {
         "text": text,
         "toxicity": toxicity}
-    logging.info(tox)
     return tox
 
 @app.route('/toxic',methods=['GET'])

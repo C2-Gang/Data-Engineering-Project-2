@@ -5,7 +5,8 @@ COPY requirements.txt /app
 WORKDIR /app
 RUN pip --no-cache-dir install torch
 RUN pip install --no-cache-dir -r requirements.txt
-
 EXPOSE 5000:5000
+
+RUN python -m unittest
 
 CMD [ "python", "app.py"]
