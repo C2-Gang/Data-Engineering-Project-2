@@ -1,73 +1,48 @@
 import FormToxic from "../Components/formtoxic";
-import {act, render, screen} from "@testing-library/react"
+import {act, cleanup, render, screen} from "@testing-library/react"
 import * as user from "@testing-library/user-event/dist/type";
 import {fireEvent, waitFor} from "@testing-library/dom";
-import userEvent from "@testing-library/user-event";
 import React from "react";
+import App from "../App";
+import {create} from 'react-test-renderer';
 
-afterEach(() => {
-    jest.resetAllMocks();
-    jest.restoreAllMocks();
-});
+afterEach(cleanup)
 
 describe("Test Toxicity App", () => {
-  describe("Test Front-end renders", () => {
-    describe("Test Inputs", () => {
+  describe("Integration tests", () => {
         it("Should check if component Render on screen", () => {
             const { getByText} = render(<FormToxic/>)
             expect(getByText('Submit').tagName).toBe('BUTTON')
             fireEvent.click(getByText('Submit'))
         });
 
-        xit("Should submit smth in component Render", async() => {
-            await act(async () => {
-                const onSubmit = jest.fn()
-                const {getByLabelText, getByText } = render(<FormToxic onSubmit={onSubmit}/>);
-                const input = getByLabelText("Your text")
-                user.type(input, "this is an experimentation.")
-
-                const button = getByText('Submit')
-                fireEvent.click(button)
-                //userEvent.click(button);
-                await waitFor(async () => {
-                    expect(onSubmit).toHaveBeenCalledTimes(1)
-                });
-
-
-            })
-        })
-
-
-        it('eventHandler called on click', () => {
-            const onSubmit = jest.fn()
-            const {getByLabelText, getByText } = render(<FormToxic onSubmit={onSubmit}/>);
-            const input = getByLabelText("Your text")
-            user.type(input, "this is an experimentation.")
-
-            const button = getByText('Submit')
-            fireEvent.click(button)
-            expect(onSubmit).toHaveBeenCalledTimes(1)
+        it('Should check if on click work', () => {
+            const {getByLabelText, getByText } =render(
+                <App>
+                <FormToxic />
+                </App>)
+            const input = getByLabelText('Your text')
+            expect(input.tagName).toBe('INPUT')
+            user.type(input, "this is a fucking experimentation.")
+            fireEvent.click(getByText("Submit"))
         });
-    })
 
-    describe("Test Output", () => {
-      it("Should return smthg ", () => {
-
-      })
-
-      it("Should display smthg", () => {
-
-      })
-
-      it("Should test Submit Button", () => {
-
-      })
-    })
+        it('Should check if form is submit', () => {
+            const component = create(<FormToxic value="fuck it"/>);
+            const instance = component.root
+            const form = instance.findByType("form");
+            //form.props.handleSubmit();
+        });
+  })
+  describe("End to end tests", () => {
+      it('Should test end to end',  () => {
+          const component = create(<FormToxic value="fuck it"/>);
+          const instance = component.root
+          const form = instance.findByType("form");
+          //form.props.handleSubmit();
+          //const result = instance.findAllByTestId("ResultToxic")
+          //expect(result.state.value).toBe([0.9899, 0.0034,0.981, 0.1883,0.005, 0.2221 ])
+      });
   })
 
-  describe("Test Integration", () => {
-    xit("", () => {
-
-    })
-  })
 })

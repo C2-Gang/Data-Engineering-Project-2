@@ -1,56 +1,60 @@
-import React from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import ResultToxic from "./resulttoxic";
 
-export default class FormToxic extends React.Component {
+
+export default class FormToxic extends Component {
     constructor(props) {
         super(props);
         this.state = {
             value: "",
             error: null,
             baseURL: 'http://localhost:5000/toxic?piecetext=',
-            globalToxicity: null,
+            globalToxicity: "",
         }
 
         axios.defaults.withCredentials = true
 
         this.source = axios.CancelToken.source();
+        this.CancelToken = axios.CancelToken;
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
-
     }
 
     handleSubmit(event) {
         event.preventDefault();
+        console.log("go there")
+        this.getToxicity()
     }
 
     handleChange = (event) => {
-        event.persist();
+         event.persist();
 
         this.setState({value: event.target.value});
-        //this.getToxicity()
     }
 
 
     getToxicity = () => {
         axios.get(this.state.baseURL + this.state.value,
-            { withCredentials: true }).then(res => {
-                this.setState({ globalToxicity: res.data.toxicity })
+            { withCredentials: true,  cancelToken: this.source.token }).then(res => {
+                if (this.mounted){
+                    this.setState({ globalToxicity: res.data.toxicity })
+                }
             }
         ).catch(error => {
-            this.setState({error: error})})
+            //this.setState({error: error})
+            console.log(error)
+        })
     }
 
     componentDidMount() {
-        this.getToxicity()
+        this.mounted = true;
     }
 
     componentWillUnmount() {
-        if (this.source) {
-            this.source.cancel("Landing Component got unmounted");
-        }
+        this.mounted = false;
+        this.source.cancel("Component unmounted, request is cancelled.");
     }
 
     render() {
