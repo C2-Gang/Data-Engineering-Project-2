@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryPie } from 'victory';
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
 
 export default class ResultToxic extends React.Component {
     constructor(props) {
