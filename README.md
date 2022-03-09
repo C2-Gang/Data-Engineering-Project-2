@@ -122,7 +122,7 @@ This dashboard evaluates requests per seconds, counts the number of requests, th
 #### 4.5.2. Alert Manager and Slack <a name="alert_slack"></a>
 
 We defined rules with prometheus [rules.yml](https://github.com/C2-Gang/Data-Engineering-Project-2/blob/master/prometheus/rules.yml).   
-Those alerts are handle by the alert manager [alertmanager.yml](https://github.com/C2-Gang/Data-Engineering-Project-2/blob/master/prometheus/alertmanager.yml). 
+Those alerts are handle by the alert manager [alertmanager.yml](https://github.com/C2-Gang/Data-Engineering-Project-2/blob/master/prometheus/alermanager.yml). 
 We configure the alertmanager with Slack in order to receive the alerts on a specific open channel.  
 In order to use it on Slack as well, please configure your API URL and specify it on the alertmanager.yml at ``` $API_URL ```
 
